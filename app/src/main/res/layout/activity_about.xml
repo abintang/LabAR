@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".About_Activity">
+
+    <ImageView
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_40sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:src="@drawable/labar2"/>
+
+    <TextView
+        android:id="@+id/textAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About"
+        android:fontFamily="@font/bold"
+        android:textColor="#4B8673"
+        android:textSize="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_90sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/shapes"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="@dimen/_195sdp"
+        app:cardBackgroundColor="#4B8673"
+        app:cardCornerRadius="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/textAbout"
+        app:layout_constraintStart_toStartOf="@id/textAbout"
+        app:layout_constraintEnd_toEndOf="@id/textAbout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sss"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/aboutDesc"
+                android:layout_width="@dimen/_190sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/bold"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp"
+                android:text="LabAR adalah aplikasi berbasis Augmented Reality yang kami buat demi tujuan untuk memperkenalkan Lab AI (Keris) dalam bentuk AR.\nSebelum menggunakan aplikasi ini, pengguna diharapkan telah mencetak marker yang bisa diunduh pada button dibawah ATAU pengguna bisa pergi ke Lab Keris untuk memindai marker yang sebelumnya sudah kami sediakan."
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bold"
+                android:textAlignment="center"
+                android:textSize="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="Best Regards - Kelompok 2 (Software Engineering)"
+                app:layout_constraintTop_toBottomOf="@id/aboutDesc"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/aboutDesc"
+                app:layout_constraintEnd_toEndOf="@id/aboutDesc"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/button_unduh"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="@dimen/_38sdp"
+        android:backgroundTint="@color/button"
+        app:layout_constraintTop_toBottomOf="@id/shapes"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Unduh Marker"
+        app:shapeAppearanceOverlay="@style/shapeButton"
+        android:textAlignment="center"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/roboto"
+        android:elevation="0dp"
+        android:textAllCaps="false"
+        android:layout_marginTop="@dimen/_100sdp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/button_back"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="@dimen/_38sdp"
+        android:backgroundTint="@color/button_exit"
+        app:layout_constraintTop_toBottomOf="@id/button_unduh"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Kembali"
+        app:shapeAppearanceOverlay="@style/shapeButton"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/roboto"
+        android:elevation="0dp"
+        android:textAllCaps="false"
+        android:layout_marginTop="@dimen/_15sdp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
