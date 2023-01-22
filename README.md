@@ -15,7 +15,7 @@ implementation 'com.airbnb.android:lottie:3.4.0'
 ```
 Setelah menyalin implementation pada build.gradle project, klik Sync On untuk menginstall library.
 
-Lalu pada *AndroidManifest.xml* project tambahkan permission dan feature dibawah pada bagian atas <application>:
+Lalu pada *AndroidManifest.xml* project tambahkan permission dan feature dibawah pada bagian atas tag application:
 ```
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-feature
@@ -26,7 +26,7 @@ Lalu pada *AndroidManifest.xml* project tambahkan permission dan feature dibawah
     android:required="true" />
 ```
 
-Dan tambahkan juga object metadata dibawah pada bagian dalam <application> :
+Dan tambahkan juga object metadata dibawah pada bagian dalam tag application :
 ```
 <meta-data
 android:name="com.google.ar.core"

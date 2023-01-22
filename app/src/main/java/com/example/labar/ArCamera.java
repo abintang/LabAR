@@ -58,6 +58,7 @@ public class ArCamera extends AppCompatActivity implements
         FragmentOnAttachListener,
         BaseArFragment.OnSessionConfigurationListener {
 
+    // Deklarasi semua variable yang dibutuhkan pada activity camera
     private final List<CompletableFuture<Void>> futures = new ArrayList<>();
     private ArFragment arFragment;
     private boolean matrixDetected = false;
@@ -81,13 +82,18 @@ public class ArCamera extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // mengatur view yang digunakan activity ini
         setContentView(R.layout.activity_ar_camera);
         getSupportFragmentManager().addFragmentOnAttachListener(this);
-        
+
+        // Inisialisasi variable yang telah di deklarasi dengan id masing-masing komponen.
         bottomSheet = findViewById(R.id.bottomSheet);
         btn_bottomSheet = findViewById(R.id.btn_up);
-        sheetBehavior =  BottomSheetBehavior.from(bottomSheet);
-        arrowUp = findViewById(R.id.logo_up);
+        sheetBehavior =  BottomSheetBehavior.from(bottomSheet); // Tidak Wajib
+        arrowUp = findViewById(R.id.logo_up); // Tidak Wajib
+
+        /* menggunakan method setoncliklistener pada variable btn_bottomsheet untuk mengaktifkan
+        behavior bottomsheet. (Tidak Wajib)*/
         btn_bottomSheet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +107,8 @@ public class ArCamera extends AppCompatActivity implements
             }
         });
 
+
+        // Deklarasi dan Inisialisasi Toolbar pada activity ini
         Toolbar mToolbar = (Toolbar) findViewById(R.id.markerAr);
         setSupportActionBar(mToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -109,6 +117,7 @@ public class ArCamera extends AppCompatActivity implements
         reset = findViewById(R.id.btn_reset);
         markerless = findViewById(R.id.btn_markerless);
 
+        // button untuk mereset activity
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +128,7 @@ public class ArCamera extends AppCompatActivity implements
             }
         });
 
+        // button untuk menuju activity markerless
         markerless.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +138,9 @@ public class ArCamera extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
-        
+
+        /* Bagian Wajib untuk dibuat dan inisialisasi fragment kamera pada activity_ar_camera.xml
+        dan menyesuaikan dengan id yang telah di inisialisasi*/
         if (savedInstanceState == null) {
             if (Sceneform.isSupported(this)) {
                 getSupportFragmentManager().beginTransaction()
@@ -138,13 +150,13 @@ public class ArCamera extends AppCompatActivity implements
         }
 
         if(Sceneform.isSupported(this)) {
-            // .glb models can be loaded at runtime when needed or when app starts
-            // This method loads ModelRenderable when app starts
+           // memanggil kedua method 3d video dibawah apabila Support.
             loadMatrixModel();
             loadMatrixMaterial();
         }
     }
 
+    // Override Method untuk attach fragment dengan id fragment yang ditentukan pada layout.
     @Override
     public void onAttachFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment) {
         if (fragment.getId() == R.id.arFragment) {
@@ -153,11 +165,14 @@ public class ArCamera extends AppCompatActivity implements
         }
     }
 
+
+    // override method session configurasi
     @Override
     public void onSessionConfiguration(Session session, Config config) {
-        // Disable plane detection
+        // Disable plane deteksi
         config.setPlaneFindingMode(Config.PlaneFindingMode.DISABLED);
 
+        // Mengatur Autofocus kamera
         config.setFocusMode(Config.FocusMode.AUTO);
         session.configure(config);
         try {
@@ -165,19 +180,18 @@ public class ArCamera extends AppCompatActivity implements
         } catch (CameraNotAvailableException e) {
             throw new RuntimeException(e);
         }
-        // Images to be detected by our AR need to be added in AugmentedImageDatabase
-        // This is how database is created at runtime
-        // You can also prebuild database in you computer and load it directly (see: https://developers.google.com/ar/develop/java/augmented-images/guide#database)
 
+        // Inisialisasi variable database
         database = new AugmentedImageDatabase(session);
 
+        // Deklarasi dan Inisialisasi Bitmap dengan marker yang ditentukan pada drawable.
         Bitmap matrixImage = BitmapFactory.decodeResource(getResources(), R.drawable.markervideo);
         Bitmap rabbitImage = BitmapFactory.decodeResource(getResources(), R.drawable.markerrobot);
         Bitmap visionImage = BitmapFactory.decodeResource(getResources(), R.drawable.markervision);
         Bitmap deepImage = BitmapFactory.decodeResource(getResources(), R.drawable.markerdeep);
         Bitmap ameImage = BitmapFactory.decodeResource(getResources(), R.drawable.markercomp);
 
-        // Every image has to have its own unique String identifier
+        // menambahkan variable diatas kedalam database dan masing-masing nama harus bersifat unique
         database.addImage("matrix", matrixImage);
         database.addImage("rabbit", rabbitImage);
         database.addImage("vision", visionImage);
@@ -205,6 +219,7 @@ public class ArCamera extends AppCompatActivity implements
         }
     }
 
+    // Method untuk memanggil basis dari 3d model video pada folder assets (Tidak Wajib Apabila tidak mau menampilkan video).
     private void loadMatrixModel() {
         futures.add(ModelRenderable.builder()
                 .setSource(this, Uri.parse("models/Video.glb"))
@@ -223,6 +238,7 @@ public class ArCamera extends AppCompatActivity implements
                         }));
     }
 
+    // method untuk mengatur material 3d video melalui filament. (Tidak Wajib Apabila tidak mau menampilkan video).
     private void loadMatrixMaterial() {
         Engine filamentEngine = EngineInstance.getEngine().getFilamentEngine();
 
@@ -260,6 +276,8 @@ public class ArCamera extends AppCompatActivity implements
         MaterialBuilder.shutdown();
     }
 
+
+    // Method untuk menampilkan 3d model jika berhasil tracking marker
     public void onAugmentedImageTrackingUpdate(AugmentedImage augmentedImage) {
         // If there are both images already detected, for better CPU usage we do not need scan for them
         if (matrixDetected && rabbitDetected && deepDetected && visionDetected) {
@@ -293,14 +311,14 @@ public class ArCamera extends AppCompatActivity implements
 
                     // Setting MediaPLayer
                     renderableInstance.getMaterial().setExternalTexture("videoTexture", externalTexture);
-                    mediaPlayer = MediaPlayer.create(this, R.raw.video);
+                    mediaPlayer = MediaPlayer.create(this, R.raw.video); // inisialisasi video pada folder raw.
                     mediaPlayer.setLooping(false);
                     mediaPlayer.setSurface(externalTexture.getSurface());
                     mediaPlayer.start();
 
                 }
-                // If rabbit model haven't been placed yet and detected image has String identifier of "rabbit"
-                // This is also example of model loading and placing at runtime
+               /* Bagian menampilkan 3d object robot (atur bagian Uri.parse("models/bla,bla") sesuai
+                dengan 3d yang kamu miliki */
                 if (!rabbitDetected && augmentedImage.getName().equals("rabbit")) {
                     rabbitDetected = true;
                     Toast.makeText(this, "Machine Learning tag detected", Toast.LENGTH_LONG).show();
@@ -327,6 +345,7 @@ public class ArCamera extends AppCompatActivity implements
 
                 }
 
+                // Bagian menampilkan 3d computer vision
                 if (!visionDetected && augmentedImage.getName().equals("vision")) {
                     visionDetected = true;
                     Toast.makeText(this, "Computer Vision tag detected", Toast.LENGTH_LONG).show();
@@ -353,6 +372,7 @@ public class ArCamera extends AppCompatActivity implements
 
                 }
 
+                // Bagian menampilkan 3d computer deepLearning
                 if (!deepDetected && augmentedImage.getName().equals("deep")) {
                     deepDetected = true;
                     Toast.makeText(this, "Deep Learning tag detected", Toast.LENGTH_LONG).show();
@@ -378,6 +398,7 @@ public class ArCamera extends AppCompatActivity implements
 
                 }
 
+                // Bagian menampilkan 3d computer
                 if (!ameDetected && augmentedImage.getName().equals("ame")) {
                     ameDetected = true;
                     Toast.makeText(this, "Ame Computer tag detected", Toast.LENGTH_LONG).show();
