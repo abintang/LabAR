@@ -15,6 +15,23 @@ implementation 'com.airbnb.android:lottie:3.4.0'
 ```
 Setelah menyalin implementation pada build.gradle project, klik Sync On untuk menginstall library.
 
+Lalu pada *AndroidManifest.xml* project tambahkan permission dan feature dibawah pada bagian atas *<application>*:
+```
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-feature
+    android:glEsVersion="0x00030000"
+    android:required="true" />
+<uses-feature
+    android:name="android.hardware.camera.ar"
+    android:required="true" />
+```
+
+Dan tambahkan juga object metadata dibawah pada bagian dalam *<application>* :
+```
+<meta-data
+android:name="com.google.ar.core"
+android:value="required" />
+```
 
 ##### Note
 3D object yang bisa digunakan pada library ini hanyalah 3D objek yang berekstensi file glb atau gltf.
